@@ -21,54 +21,35 @@ def youtube_search(options):
 
     # Call the search.list method to retrieve results matching the specified
     # query term.
-
+    category = '전신스트레칭'
     search_response = youtube.search().list(
-        q='전신스트레칭',
+        q=category,  # 변수 처리
         part="snippet",
-        maxResults=30
+        maxResults=50
     ).execute()
-
-    videoId = []  # VideoID
-    title = []  # 영상 제목
-    description = []  # 영살 설명
-    thumbnail = []  # 영상 썸네일
-    channelTitle = []  # 채널 이름
-    publishTime = []  # 영상 발행 시간
 
     # Add each result to the appropriate list, and then display the lists of
     # matching videos, channels, and playlists.
     for search_result in search_response.get("items", []):
         if search_result["id"]["kind"] == "youtube#video":
-            videoId.append("%s" % (search_result["id"]["videoId"],))
-            title.append("%s" % (search_result["snippet"]["title"],))
-            description.append("%s" % (search_result["snippet"]["description"],))
-            thumbnail.append("%s" % (search_result["snippet"]["thumbnails"]["medium"]["url"]))
-            channelTitle.append("%s" % (search_result["snippet"]["channelTitle"],))
-            publishTime.append("%s" % (search_result["snippet"]["publishTime"],))
-
-            print("\n\nVideoId:\n\n", "\n".join(videoId), "\n")
-            print("\n\ntitle:\n\n", "\n".join(title), "\n")
-            print("\n\ndescription:\n\n", "\n".join(description), "\n")
-            print("\n\nthumbnail:\n\n", "\n".join(thumbnail), "\n")
-            print("\n\nchannelTitle:\n\n", "\n".join(channelTitle), "\n")
-            print("\n\npublishTime:\n\n", "\n".join(publishTime), "\n")
-
             doc = {
-                'videoId': videoId,
-                'title': title,
-                'description': description,
-                'thumbnail': thumbnail,
-                'channelTitle': channelTitle,
-                'publishTime': publishTime
+                'category': category,
+                'videoId': search_result["id"]["videoId"],
+                'title': search_result["snippet"]["title"],
+                'description': search_result["snippet"]["description"],
+                'thumbnail': search_result["snippet"]["thumbnails"]["medium"]["url"],
+                'channelTitle': search_result["snippet"]["channelTitle"],
+                'publishTime': search_result["snippet"]["publishTime"]
             }
+
             db.myproject.insert_one(doc)
             print('완료!')
 
 
 if __name__ == "__main__":
     argparser.add_argument("--q", help="Search term", default="Google")
-    argparser.add_argument("--max-results", help="Max results", default=25)
-    args = argparser.parse_args()
+argparser.add_argument("--max-results", help="Max results", default=25)
+args = argparser.parse_args()
 
 try:
     youtube_search(args)
