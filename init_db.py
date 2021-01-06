@@ -21,9 +21,13 @@ def youtube_search(options):
 
     # Call the search.list method to retrieve results matching the specified
     # query term.
-    category = '전신스트레칭'
+    searchWord = '엉덩이운동'
+    mainCode = {'전신스트레칭': 'Stretch', '상체스트레칭': 'Stretch', '하체스트레칭': 'Stretch', '유산소운동': 'Cardio', '상체근력운동': 'Weight',
+                '하체근력운동': 'Weight', '코어근력운동': 'Weight', '복근운동': 'Weight', '엉덩이운동': 'Weight'}
+    subCode = {'전신스트레칭': 'fullbodyST', '상체스트레칭': 'upperbodyST', '하체스트레칭': 'lowerbodyST', '유산소운동': 'Cardio',
+               '상체근력운동': 'upperbodyW', '하체근력운동': 'lowerbodyW', '코어근력운동': 'coreW', '복근운동': 'absW', '엉덩이운동': 'hipW'}
     search_response = youtube.search().list(
-        q=category,  # 변수 처리
+        q=searchWord,  # 변수 처리
         part="snippet",
         maxResults=50
     ).execute()
@@ -33,7 +37,9 @@ def youtube_search(options):
     for search_result in search_response.get("items", []):
         if search_result["id"]["kind"] == "youtube#video":
             doc = {
-                'category': category,
+                'q': searchWord,
+                'mainCAT': mainCode[searchWord],
+                'subCAT': subCode[searchWord],
                 'videoId': search_result["id"]["videoId"],
                 'title': search_result["snippet"]["title"],
                 'description': search_result["snippet"]["description"],
