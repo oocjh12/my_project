@@ -15,23 +15,23 @@ def home():
 
 
 # API 역할을 하는 부분
-@app.route('/stretch/fullbody', methods=['GET'])
+@app.route('/st/fullbody', methods=['GET'])
 def show_fullbodyST():
-    fullbodySTs = list(db.myproject.find({}, {"_id": 0, "videoId": 1, "subCAT": "fullbodyST"}).limit(4))
+    fullbodySTs = list(db.myproject.find({}, {"_id": 0, "videoId": 1, "subCAT": "fullbodyST"}).limit(8))
     # fullbodySTs = list(db.myproject.find({}, {"subCAT": "fullbodyST"}).sort([{"_id": 1}]))
     # fullbodySTs = list(db.myproject.find({"subCAT": "fullbodyST"},{'videoId':1}))
     return jsonify({'result': 'success', 'fullbodyST_list': fullbodySTs})
 
 
-@app.route('/stretch/upperbody', methods=['GET'])
+@app.route('/st/upperbody', methods=['GET'])
 def show_upperbodyST():
-    upperbodySTs = list(db.myproject.find({}, {"_id": 0, "videoId": 1, "subCAT": "upperbodyST"}).limit(4))
+    upperbodySTs = list(db.myproject.find({}, {"_id": 0, "subCAT": "upperbodyST", "videoId": 1}).limit(8))
     return jsonify({'result': 'success', 'upperbodyST_list': upperbodySTs})
 
 
-@app.route('/stretch/lowerbody', methods=['GET'])
+@app.route('/st/lowerbody', methods=['GET'])
 def show_lowerbodyST():
-    lowerbodySTs = list(db.myproject.find({}, {"_id": 0, "videoId": 1, "subCAT": "lowerbodyST"}).limit(4))
+    lowerbodySTs = list(db.myproject.find({}, {"_id": 0, "videoId": 1, "subCAT": "lowerbodyST"}).limit(8))
     return jsonify({'result': 'success', 'lowerbodyST_list': lowerbodySTs})
 
 

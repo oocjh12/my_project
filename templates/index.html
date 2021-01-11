@@ -42,6 +42,17 @@
             margin: auto;
         }
 
+        .introWrap {
+            background-color: lightblue;
+            padding: 50px 50px 50px 50px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 80px;
+            color: steelblue;
+        }
+
         /*.img-fluid {*/
         /*    position: relative;*/
         /*    max-width: 100%;*/
@@ -92,7 +103,7 @@
             color: lightslategray;
         }
 
-        .card button {
+        .card-button {
             border: none;
             outline: 0;
             padding: 15px;
@@ -104,7 +115,7 @@
             font-size: 18px;
         }
 
-        .card button:hover {
+        .card-button:hover {
             opacity: 0.7;
         }
 
@@ -117,6 +128,10 @@
     </style>
 
     <script>
+        $(document).ready(function () {
+            $('#video-box').empty()
+        })
+
         // 스트레칭 세부 선택사항 보여주기(전신,상체,하체)
         function subStretch() {
             if ($('#subST-box').css('display') == 'grid') {
@@ -155,15 +170,14 @@
             $('#video-box').empty()
             $.ajax({
                 type: "GET",
-                url: "/stretch/fullbody",
+                url: "/st/fullbody",
                 data: {},
                 success: function (response) {
                     let fullbodySTs = response['fullbodyST_list']
                     for (let i = 0; i < fullbodySTs.length; i++) {
                         let fullbodyST = fullbodySTs[i]
                         let url = fullbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}"
-                                               allowfullscreen></iframe>`
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
                         $('#video-box').append(tempHtml)
                     }
                 }
@@ -175,35 +189,34 @@
             $('#video-box').empty()
             $.ajax({
                 type: "GET",
-                url: "/stretch/upperbody",
+                url: "/st/upperbody",
                 data: {},
                 success: function (response) {
                     let upperbodySTs = response['upperbodyST_list']
                     for (let i = 0; i < upperbodySTs.length; i++) {
                         let upperbodyST = upperbodySTs[i]
                         let url2 = upperbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url2}"
-                                               allowfullscreen></iframe>`
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url2}" allowfullscreen></iframe>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
         }
 
+
         // 하체스트레칭 영상 가져오기
         function showLowerbodyST() {
             $('#video-box').empty()
             $.ajax({
                 type: "GET",
-                url: "/stretch/lowerbody",
+                url: "/st/lowerbody",
                 data: {},
                 success: function (response) {
                     let lowerbodySTs = response['lowerbodyST_list']
                     for (let i = 0; i < lowerbodySTs.length; i++) {
                         let lowerbodyST = lowerbodySTs[i]
                         let url3 = lowerbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url3}"
-                                               allowfullscreen></iframe>`
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url3}" allowfullscreen></iframe>`
                         $('#video-box').append(tempHtml)
                     }
                 }
@@ -217,7 +230,15 @@
 <!--     src=" https://images.ctfassets.net/hrltx12pl8hq/55pPauf4X17ORmwoblVxK8/9d28f5caecc401817974ddf67e0c9543/shutterstock_1319954792.jpg"-->
 <!--     alt="Responsive image">-->
 <!--<br><br>-->
+<!--//상단 사이트 소개-->
+<div class="introWrap">
+    <h1 class="mb-0 title"><b>지금처럼 먹어서는 답이 없다</b></h1>
+    <h1 class="mt-5"> 집콕운동이라도 하자 제발 플리즈 <br></h1>
+    <h4 class="mt-3 mb-0">카테고리별로 원하는 Youtube 운동 영상을 찾아줘요:D</h4>
+</div>
+
 <div class="menuWrap">
+    <h1 class="mt-5 mb-0 text-center" style="color:steelblue"><b>JUST WORK OUT! </b></h1>
     <!--    // 메인 categroy 3가지 보여주기 -->
     <div class="mb-5 border-info border-bottom">
         <button onclick="subStretch()" id="btn-subST-box"
@@ -243,7 +264,7 @@
                 <h2 class="card-title"><b>전신</b> 스트레칭</h2>
                 <p class="card-text">Full Body Stretch </p>
                 <p>
-                    <button onclick="showFullbodyST()" class="card button">영상 보러가기</button>
+                    <button onclick="showFullbodyST()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -255,7 +276,7 @@
                 <h2 class="card-title"><b>상체</b> 스트레칭</h2>
                 <p class="card-text">Upper Body Stretch </p>
                 <p>
-                    <button onclick="showUpperbodyST()" class="card button">영상 보러가기</button>
+                    <button onclick="showUpperbodyST()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -267,7 +288,7 @@
                 <h2 class="card-title"><b>하체</b> 스트레칭</h2>
                 <p class="card-text">Lower Body Stretch </p>
                 <p>
-                    <button onclick="showLowerbodyST()" class="card button">영상 보러가기</button>
+                    <button onclick="showLowerbodyST()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -282,7 +303,7 @@
                 <h2 class="card-title"><b>유산소 운동</b></h2>
                 <p class="card-text">Cardio Exercise </p>
                 <p>
-                    <button onclick="showCardio()" class="card button">영상 보러가기</button>
+                    <button onclick="showCardio()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -297,7 +318,7 @@
                 <h2 class="card-title"><b>상체</b>근력 운동</h2>
                 <p class="card-text">Upper Body Weight </p>
                 <p>
-                    <button onclick="showUpperbodyW()" class="card button">영상 보러가기</button>
+                    <button onclick="showUpperbodyW()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -309,7 +330,7 @@
                 <h2 class="card-title"><b>하체</b>근력 운동</h2>
                 <p class="card-text">Lower Body Weight</p>
                 <p>
-                    <button onclick="showLowerbodyW()" class="card button">영상 보러가기</button>
+                    <button onclick="showLowerbodyW()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -321,7 +342,7 @@
                 <h2 class="card-title"><b>코어</b>운동</h2>
                 <p class="card-text">Core Exercise </p>
                 <p>
-                    <button onclick="showCoreW()" class="card button">영상 보러가기</button>
+                    <button onclick="showCoreW()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -333,7 +354,7 @@
                 <h2 class="card-title"><b>복근</b> 운동</h2>
                 <p class="card-text">Abs Exercise </p>
                 <p>
-                    <button onclick="showAbsW()" class="card button">영상 보러가기</button>
+                    <button onclick="showAbsW()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -345,7 +366,7 @@
                 <h2 class="card-title"><b>힙업</b> 운동</h2>
                 <p class="card-text">Hip-up exercise </p>
                 <p>
-                    <button onclick="showHipW()" class="card button">영상 보러가기</button>
+                    <button onclick="showHipW()" class="card-button">영상 보러가기</button>
                 </p>
             </div>
         </div>
@@ -353,7 +374,7 @@
 </div>
 
 <!--비디오 보여주기-->
-<div class="videoWrap" id="video-box" style="display:none">
+<div class="videoWrap" id="video-box">
     <iframe width="400" height="270" src="https://www.youtube.com/embed/nOGT4lXlSHw" allowfullscreen></iframe>
 </div>
 </body>
