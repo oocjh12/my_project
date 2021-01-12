@@ -23,13 +23,12 @@
 
     <!-- 구글폰트 -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300&family=Playball&family=Yanone+Kaffeesatz&family=Yeon+Sung&display=swap"
+          rel="stylesheet">
 
     <style type="text/css">
         * {
             font-family: 'Noto Sans KR', sans-serif;
-            /*background-color: whitesmoke;*/
-            /*background-size: cover;*/
         }
 
         .menuWrap {
@@ -40,6 +39,7 @@
         .videoWrap {
             width: 1600px;
             margin: auto;
+            font-family: 'Noto Sans KR', sans-serif;
         }
 
         .introWrap {
@@ -52,12 +52,6 @@
             font-size: 80px;
             color: steelblue;
         }
-
-        /*.img-fluid {*/
-        /*    position: relative;*/
-        /*    max-width: 100%;*/
-        /*    height: auto;*/
-        /*}*/
 
         .menuBorder {
             border-color: lightsteelblue;
@@ -136,10 +130,12 @@
         function subStretch() {
             if ($('#subST-box').css('display') == 'grid') {
                 $('#subST-box').hide();
+                $('#video-box').empty()
             } else {
                 $('#subST-box').show();
                 $('#subCardio-box').hide();
                 $('#subW-box').hide();
+                $('#video-box').empty()
             }
         }
 
@@ -147,10 +143,12 @@
         function subCardio() {
             if ($('#subCardio-box').css('display') == 'grid') {
                 $('#subCardio-box').hide();
+                $('#video-box').empty()
             } else {
-                $('#subST-box').hide()
+                $('#subST-box').hide();
                 $('#subW-box').hide();
                 $('#subCardio-box').show();
+                $('#video-box').empty()
             }
         }
 
@@ -158,10 +156,12 @@
         function subWeight() {
             if ($('#subW-box').css('display') == 'grid') {
                 $('#subW-box').hide();
+                $('#video-box').empty()
             } else {
                 $('#subW-box').show();
                 $('#subST-box').hide();
                 $('#subCardio-box').hide();
+                $('#video-box').empty()
             }
         }
 
@@ -174,7 +174,7 @@
                 data: {},
                 success: function (response) {
                     let fullbodySTs = response['fullbodyST_list']
-                    for (let i = 0; i < fullbodySTs.length; i++) {
+                    for (let i = 0; i < 8; i++) {
                         let fullbodyST = fullbodySTs[i]
                         let url = fullbodyST['videoId']
                         let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
@@ -193,16 +193,15 @@
                 data: {},
                 success: function (response) {
                     let upperbodySTs = response['upperbodyST_list']
-                    for (let i = 0; i < upperbodySTs.length; i++) {
+                    for (let i = 0; i < 8; i++) {
                         let upperbodyST = upperbodySTs[i]
-                        let url2 = upperbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url2}" allowfullscreen></iframe>`
+                        let url = upperbodyST['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
         }
-
 
         // 하체스트레칭 영상 가져오기
         function showLowerbodyST() {
@@ -213,10 +212,124 @@
                 data: {},
                 success: function (response) {
                     let lowerbodySTs = response['lowerbodyST_list']
-                    for (let i = 0; i < lowerbodySTs.length; i++) {
+                    for (let i = 0; i < 8; i++) {
                         let lowerbodyST = lowerbodySTs[i]
-                        let url3 = lowerbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url3}" allowfullscreen></iframe>`
+                        let url = lowerbodyST['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        $('#video-box').append(tempHtml)
+                    }
+                }
+            })
+        }
+
+        // 유산소운동 영상 가져오기
+        function showCardio() {
+            $('#video-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/cardio",
+                data: {},
+                success: function (response) {
+                    let cardios = response['cardio_list']
+                    for (let i = 0; i < 8; i++) {
+                        let cardio = cardios[i]
+                        let url = cardio['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        $('#video-box').append(tempHtml)
+                    }
+                }
+            })
+        }
+
+        // 상체근력운동 영상 가져오기
+        function showUpperbodyW() {
+            $('#video-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/w/upperbody",
+                data: {},
+                success: function (response) {
+                    let upperbodyWs = response['upperbodyW_list']
+                    for (let i = 0; i < 8; i++) {
+                        let upperbodyW = upperbodyWs[i]
+                        let url = upperbodyW['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        $('#video-box').append(tempHtml)
+                    }
+                }
+            })
+        }
+
+        // 하체근력운동 영상 가져오기
+        function showLowerbodyW() {
+            $('#video-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/w/lowerbody",
+                data: {},
+                success: function (response) {
+                    let lowerbodyWs = response['lowerbodyW_list']
+                    for (let i = 0; i < 8; i++) {
+                        let lowerbodyW = lowerbodyWs[i]
+                        let url = lowerbodyW['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        $('#video-box').append(tempHtml)
+                    }
+                }
+            })
+        }
+
+        // 코어운동 영상 가져오기
+        function showCoreW() {
+            $('#video-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/w/core",
+                data: {},
+                success: function (response) {
+                    let coreWs = response['coreW_list']
+                    for (let i = 0; i < 8; i++) {
+                        let coreW = coreWs[i]
+                        let url = coreW['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        $('#video-box').append(tempHtml)
+                    }
+                }
+            })
+        }
+
+        // 복근운동 영상 가져오기
+        function showAbsW() {
+            $('#video-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/w/abs",
+                data: {},
+                success: function (response) {
+                    let absWs = response['absW_list']
+                    for (let i = 0; i < 8; i++) {
+                        let absW = absWs[i]
+                        let url = absW['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        $('#video-box').append(tempHtml)
+                    }
+                }
+            })
+        }
+
+        // 힙운동 영상 가져오기
+        function showHipW() {
+            $('#video-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/w/hip",
+                data: {},
+                success: function (response) {
+                    let hipWs = response['hipW_list']
+                    for (let i = 0; i < 8; i++) {
+                        let hipW = hipWs[i]
+                        let url = hipW['videoId']
+                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
                         $('#video-box').append(tempHtml)
                     }
                 }
@@ -233,12 +346,12 @@
 <!--//상단 사이트 소개-->
 <div class="introWrap">
     <h1 class="mb-0 title"><b>지금처럼 먹어서는 답이 없다</b></h1>
-    <h1 class="mt-5"> 집콕운동이라도 하자 제발 플리즈 <br></h1>
+    <h1 class="mt-5"> 집콕 운동이라도 하자 제발 플리즈 <br></h1>
     <h4 class="mt-3 mb-0">카테고리별로 원하는 Youtube 운동 영상을 찾아줘요:D</h4>
 </div>
 
 <div class="menuWrap">
-    <h1 class="mt-5 mb-0 text-center" style="color:steelblue"><b>JUST WORK OUT! </b></h1>
+    <h1 class="mt-5 mb-0 text-center" style="color:steelblue"><b>JUST WORK OUT!</b></h1>
     <!--    // 메인 categroy 3가지 보여주기 -->
     <div class="mb-5 border-info border-bottom">
         <button onclick="subStretch()" id="btn-subST-box"
@@ -297,7 +410,7 @@
     <div id="subCardio-box" class="card-columns" style="display:none">
         <div class="card">
             <img class="card-img-top"
-                 src="https://media.self.com/photos/5fc70a4bc9b6aaabbdaeb5cc/4:3/w_2560%2Cc_limit/running_pavement_woman.jpeg"
+                 src="https://media.self.com/photos/5fe10f60fa75923c77cd8177/4:3/w_1600%2Cc_limit/190916_SELF_0617.jpg"
                  alt="cardio">
             <div class="card-body">
                 <h2 class="card-title"><b>유산소 운동</b></h2>
@@ -336,7 +449,7 @@
         </div>
         <div class="card">
             <img class="card-img-top"
-                 src="https://media.self.com/photos/5da4eef65c250800081af9ec/master/w_1600%2Cc_limit/Forearm%2520Plank%2520to%2520Dolphin-Delise_c0003.gif"
+                 src="https://media.self.com/photos/5da62ab35c250800081af9f2/master/w_1600%2Cc_limit/Corkscrew%2520-%2520Delise_c0026.gif"
                  alt="coreW">
             <div class="card-body">
                 <h2 class="card-title"><b>코어</b>운동</h2>
@@ -372,6 +485,7 @@
         </div>
     </div>
 </div>
+
 
 <!--비디오 보여주기-->
 <div class="videoWrap" id="video-box">
