@@ -31,28 +31,55 @@
             font-family: 'Noto Sans KR', sans-serif;
         }
 
+        /*#전체 배경이미지 부분*/
+        .Wrap {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/static/bg.jpg");
+            background-attachment: fixed;
+            padding: 0;
+            min-height: 100%;
+            backgroud-position: center;
+            background-size: cover;
+            /*margin-bottom: 100px;*/
+        }
+
+        /*#상단 홈페이지 소개 문장 부분*/
+        .introWrap {
+            background-color: lightblue;
+            padding: 60px 50px 60px 50px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /*#중간 영어문장 부분*/
+        .subtitleWrap {
+            color: white;
+            font-size: 60px;
+            padding: 30px 0px;
+            text-align: center;
+        }
+
+        /*#스트레칭, 유산소, 근력운동 "메뉴" 부분*/
         .menuWrap {
             width: 1000px;
             margin: auto;
         }
 
+        /*#video 나오는 부분*/
         .videoWrap {
             width: 1600px;
             margin: auto;
+            padding-bottom: 100px;
             font-family: 'Noto Sans KR', sans-serif;
         }
 
-        .introWrap {
-            background-color: lightblue;
-            padding: 50px 50px 50px 50px;
-            text-align: center;
-        }
-
+        /*#최상단 멘트 부분*/
         .title {
             font-size: 80px;
-            color: steelblue;
+            color: navy;
+            font-weight: bolder;
         }
 
+        /*#메뉴 버튼 디자인*/
         .menuBorder {
             border-color: lightsteelblue;
             border-top-left-radius: .4rem;
@@ -63,8 +90,14 @@
             margin-left: .25rem;
             margin-right: .25rem;
             text-align: center;
+            font-weight: bold;
+            font-size: 30px;
+            background-color: white;
+            padding: 30px 40px;
+            opacity: 0.6;
         }
 
+        /*#메뉴 바로 아래 '줄' 디자인*/
         .border-info {
             border-color: lightsteelblue;
             padding-top: 50px;
@@ -101,12 +134,13 @@
             border: none;
             outline: 0;
             padding: 15px;
-            color: dimgray;
-            background-color: lavender;
+            color: white;
+            background-color: darkslateblue;
+            opacity: 0.7;
             text-align: center;
             cursor: pointer;
             width: 100%;
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .card-button:hover {
@@ -339,158 +373,161 @@
 
 </head>
 <body>
-<!--<img class="img-fluid"-->
-<!--     src=" https://images.ctfassets.net/hrltx12pl8hq/55pPauf4X17ORmwoblVxK8/9d28f5caecc401817974ddf67e0c9543/shutterstock_1319954792.jpg"-->
-<!--     alt="Responsive image">-->
+
 <!--<br><br>-->
 <!--//상단 사이트 소개-->
-<div class="introWrap">
-    <h1 class="mb-0 title"><b>지금처럼 먹어서는 답이 없다</b></h1>
-    <h1 class="mt-5"> 집콕 운동이라도 하자 제발 플리즈 <br></h1>
-    <h4 class="mt-3 mb-0">카테고리별로 원하는 Youtube 운동 영상을 찾아줘요:D</h4>
+<div class="Wrap">
+    <div class="introWrap">
+        <h1 class="mb-0 title"><b>지금처럼 먹어서는 답이 없다</b></h1>
+        <h1 class="mt-5"><b>집콕 운동이라도 하자 제발 플리즈</b> <br></h1>
+        <h4 class="mt-3 mb-0"><b>카테고리별로 원하는 Youtube 운동 영상을 찾아줘요:D</b></h4>
+    </div>
+    <div class="subtitleWrap">
+        <p class="mt-5 mb-0"><b>Don't wish it were easier. Wish you were better!</b></p>
+    </div>
+    <div class="menuWrap">
+        <!--    // 메인 categroy 3가지 보여주기 -->
+        <div class="mb-5 border-info border-bottom">
+            <button onclick="subStretch()" id="btn-subST-box"
+                    class="btn btn-outline-info btn-lg p-4 mr-3 hover-text-primary menuBorder">
+                스트레칭
+            </button>
+            <button onclick="subCardio()" id="btn-cardio-box"
+                    class="btn btn-outline-info btn-lg p-4 mr-3 hover-text-primary menuBorder">
+                유산소
+            </button>
+            <button onclick="subWeight()" id="btn-subW-box"
+                    class="btn btn-outline-info btn-lg p-4 mr-3 hover-text-primary menuBorder">
+                근력 운동
+            </button>
+        </div>
+        <!--스트레칭 sub category 3가지 보여주기-->
+        <div id="subST-box" class="card-columns" style="display:none">
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5a3be9ac3e056c42a43295e5/master/w_1600%2Cc_limit/2_8self.jpg"
+                     alt="fullbodyST">
+                <div class="card-body">
+                    <h2 class="card-title"><b>전신</b> 스트레칭</h2>
+                    <p class="card-text">Full Body Stretch </p>
+                    <p>
+                        <button onclick="showFullbodyST()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5a305bd6e1ef6d3e6b8801c1/master/w_1600%2Cc_limit/2_14self.jpg"
+                     alt="upperbodyST">
+                <div class="card-body">
+                    <h2 class="card-title"><b>상체</b> 스트레칭</h2>
+                    <p class="card-text">Upper Body Stretch </p>
+                    <p>
+                        <button onclick="showUpperbodyST()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5a305cab9bddcf5b219b2c5f/master/w_1600%2Cc_limit/2_4Self.jpg"
+                     alt="lowerbodyST">
+                <div class="card-body">
+                    <h2 class="card-title"><b>하체</b> 스트레칭</h2>
+                    <p class="card-text">Lower Body Stretch </p>
+                    <p>
+                        <button onclick="showLowerbodyST()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--유산소운동 sub category 보여주기-->
+        <div id="subCardio-box" class="card-columns" style="display:none">
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5fe10f60fa75923c77cd8177/4:3/w_1600%2Cc_limit/190916_SELF_0617.jpg"
+                     alt="cardio">
+                <div class="card-body">
+                    <h2 class="card-title"><b>유산소 운동</b></h2>
+                    <p class="card-text">Cardio Exercise </p>
+                    <p>
+                        <button onclick="showCardio()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--근력운동 sub category 5가지 보여주기-->
+        <div id="subW-box" class="card-columns" style="display:none">
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5fbc06d0da330c2d98edb652/master/w_1600%2Cc_limit/Erica_Push-up.gif"
+                     alt="upperbodyW">
+                <div class="card-body">
+                    <h2 class="card-title"><b>상체</b>근력 운동</h2>
+                    <p class="card-text">Upper Body Weight </p>
+                    <p>
+                        <button onclick="showUpperbodyW()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5db0c882d515840008005ca2/master/w_1600%2Cc_limit/nikki_bodyweight%2520squat.gif"
+                     alt="lowerbodyW">
+                <div class="card-body">
+                    <h2 class="card-title"><b>하체</b>근력 운동</h2>
+                    <p class="card-text">Lower Body Weight</p>
+                    <p>
+                        <button onclick="showLowerbodyW()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5da62ab35c250800081af9f2/master/w_1600%2Cc_limit/Corkscrew%2520-%2520Delise_c0026.gif"
+                     alt="coreW">
+                <div class="card-body">
+                    <h2 class="card-title"><b>코어</b>운동</h2>
+                    <p class="card-text">Core Exercise </p>
+                    <p>
+                        <button onclick="showCoreW()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5dfae13ee313510008a384b0/master/w_1600%2Cc_limit/BicycleCrunch-Delise-Use2.gif"
+                     alt="absW">
+                <div class="card-body">
+                    <h2 class="card-title"><b>복근</b> 운동</h2>
+                    <p class="card-text">Abs Exercise </p>
+                    <p>
+                        <button onclick="showAbsW()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top"
+                     src="https://media.self.com/photos/5dcdd1cfb65a4f00084a0dbd/master/w_1600%2Cc_limit/Grace_Banded%2520Glute%2520Bridge.gif"
+                     alt="hipW">
+                <div class="card-body">
+                    <h2 class="card-title"><b>힙업</b> 운동</h2>
+                    <p class="card-text">Hip-up exercise </p>
+                    <p>
+                        <button onclick="showHipW()" class="card-button">영상 보러가기</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="videoWrap" id="video-box">
+        <iframe width="400" height="270" src="https://www.youtube.com/embed/nOGT4lXlSHw" allowfullscreen></iframe>
+    </div>
 </div>
-
-<div class="menuWrap">
-    <h1 class="mt-5 mb-0 text-center" style="color:steelblue"><b>JUST WORK OUT!</b></h1>
-    <!--    // 메인 categroy 3가지 보여주기 -->
-    <div class="mb-5 border-info border-bottom">
-        <button onclick="subStretch()" id="btn-subST-box"
-                class="btn btn-outline-info btn-lg p-4 mr-3 hover-text-primary menuBorder">
-            스트레칭
-        </button>
-        <button onclick="subCardio()" id="btn-cardio-box"
-                class="btn btn-outline-info btn-lg p-4 mr-3 hover-text-primary menuBorder">
-            유산소
-        </button>
-        <button onclick="subWeight()" id="btn-subW-box"
-                class="btn btn-outline-info btn-lg p-4 mr-3 hover-text-primary menuBorder">
-            근력 운동
-        </button>
-    </div>
-    <!--스트레칭 sub category 3가지 보여주기-->
-    <div id="subST-box" class="card-columns" style="display:none">
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5a3be9ac3e056c42a43295e5/master/w_1600%2Cc_limit/2_8self.jpg"
-                 alt="fullbodyST">
-            <div class="card-body">
-                <h2 class="card-title"><b>전신</b> 스트레칭</h2>
-                <p class="card-text">Full Body Stretch </p>
-                <p>
-                    <button onclick="showFullbodyST()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5a305bd6e1ef6d3e6b8801c1/master/w_1600%2Cc_limit/2_14self.jpg"
-                 alt="upperbodyST">
-            <div class="card-body">
-                <h2 class="card-title"><b>상체</b> 스트레칭</h2>
-                <p class="card-text">Upper Body Stretch </p>
-                <p>
-                    <button onclick="showUpperbodyST()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5a305cab9bddcf5b219b2c5f/master/w_1600%2Cc_limit/2_4Self.jpg"
-                 alt="lowerbodyST">
-            <div class="card-body">
-                <h2 class="card-title"><b>하체</b> 스트레칭</h2>
-                <p class="card-text">Lower Body Stretch </p>
-                <p>
-                    <button onclick="showLowerbodyST()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-    </div>
-    <!--유산소운동 sub category 보여주기-->
-    <div id="subCardio-box" class="card-columns" style="display:none">
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5fe10f60fa75923c77cd8177/4:3/w_1600%2Cc_limit/190916_SELF_0617.jpg"
-                 alt="cardio">
-            <div class="card-body">
-                <h2 class="card-title"><b>유산소 운동</b></h2>
-                <p class="card-text">Cardio Exercise </p>
-                <p>
-                    <button onclick="showCardio()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-    </div>
-    <!--근력운동 sub category 5가지 보여주기-->
-    <div id="subW-box" class="card-columns" style="display:none">
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5fbc06d0da330c2d98edb652/master/w_1600%2Cc_limit/Erica_Push-up.gif"
-                 alt="upperbodyW">
-            <div class="card-body">
-                <h2 class="card-title"><b>상체</b>근력 운동</h2>
-                <p class="card-text">Upper Body Weight </p>
-                <p>
-                    <button onclick="showUpperbodyW()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5db0c882d515840008005ca2/master/w_1600%2Cc_limit/nikki_bodyweight%2520squat.gif"
-                 alt="lowerbodyW">
-            <div class="card-body">
-                <h2 class="card-title"><b>하체</b>근력 운동</h2>
-                <p class="card-text">Lower Body Weight</p>
-                <p>
-                    <button onclick="showLowerbodyW()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5da62ab35c250800081af9f2/master/w_1600%2Cc_limit/Corkscrew%2520-%2520Delise_c0026.gif"
-                 alt="coreW">
-            <div class="card-body">
-                <h2 class="card-title"><b>코어</b>운동</h2>
-                <p class="card-text">Core Exercise </p>
-                <p>
-                    <button onclick="showCoreW()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5dfae13ee313510008a384b0/master/w_1600%2Cc_limit/BicycleCrunch-Delise-Use2.gif"
-                 alt="absW">
-            <div class="card-body">
-                <h2 class="card-title"><b>복근</b> 운동</h2>
-                <p class="card-text">Abs Exercise </p>
-                <p>
-                    <button onclick="showAbsW()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top"
-                 src="https://media.self.com/photos/5dcdd1cfb65a4f00084a0dbd/master/w_1600%2Cc_limit/Grace_Banded%2520Glute%2520Bridge.gif"
-                 alt="hipW">
-            <div class="card-body">
-                <h2 class="card-title"><b>힙업</b> 운동</h2>
-                <p class="card-text">Hip-up exercise </p>
-                <p>
-                    <button onclick="showHipW()" class="card-button">영상 보러가기</button>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!--비디오 보여주기-->
-<div class="videoWrap" id="video-box">
-    <iframe width="400" height="270" src="https://www.youtube.com/embed/nOGT4lXlSHw" allowfullscreen></iframe>
-</div>
+<!--<div class="videoWrap" id="video-box">-->
+<!--    <iframe width="400" height="270" src="https://www.youtube.com/embed/nOGT4lXlSHw" allowfullscreen></iframe>-->
+<!--</div>-->
 </body>
 
 </html>
