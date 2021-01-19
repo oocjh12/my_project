@@ -37,9 +37,8 @@
             background-attachment: fixed;
             padding: 0;
             min-height: 100%;
-            backgroud-position: center;
             background-size: cover;
-            /*margin-bottom: 100px;*/
+            overflow: auto;
         }
 
         /*#상단 홈페이지 소개 문장 부분*/
@@ -53,23 +52,24 @@
         /*#중간 영어문장 부분*/
         .subtitleWrap {
             color: white;
-            font-size: 60px;
+            font-size: 50px;
             padding: 30px 0px;
             text-align: center;
         }
 
         /*#스트레칭, 유산소, 근력운동 "메뉴" 부분*/
         .menuWrap {
+            text-align: center;
             width: 1000px;
             margin: auto;
         }
 
         /*#video 나오는 부분*/
         .videoWrap {
-            width: 1600px;
-            margin: auto;
-            padding-bottom: 100px;
-            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0 150px;
+            padding-bottom: 200px;
+            color: black;
+            position: center;
         }
 
         /*#최상단 멘트 부분*/
@@ -147,234 +147,445 @@
             opacity: 0.7;
         }
 
-        /*.video card {*/
-        /*    display: grid;*/
-        /*    grid-template-columns: repeat(4, 1fr);*/
-        /*    grid-auto-rows: auto;*/
-        /*    margin-bottom: 50px;*/
-        /*}*/
+        .btnWrap {
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            padding: 15px;
+        }
+
+        .videoContents {
+            display: block;
+            width: 500px;
+            white-space: nowrap;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            text-overflow: ellipsis;
+            text-align: left;
+            background-color: lavender;
+        }
+
     </style>
 
     <script>
         $(document).ready(function () {
             $('#video-box').empty()
+            $('.btn-group').hide()
         })
 
         // 스트레칭 세부 선택사항 보여주기(전신,상체,하체)
         function subStretch() {
             if ($('#subST-box').css('display') == 'grid') {
-                $('#subST-box').hide();
+                $('#subST-box').hide()
                 $('#video-box').empty()
+                $('.btn-group').hide()
             } else {
-                $('#subST-box').show();
-                $('#subCardio-box').hide();
-                $('#subW-box').hide();
+                $('#subST-box').show()
+                $('#subCardio-box').hide()
+                $('#subW-box').hide()
                 $('#video-box').empty()
+                $('.btn-group').hide()
             }
         }
 
         // 유산소운동 영상 카드 보여주기
         function subCardio() {
             if ($('#subCardio-box').css('display') == 'grid') {
-                $('#subCardio-box').hide();
+                $('#subCardio-box').hide()
                 $('#video-box').empty()
+                $('.btn-group').hide()
             } else {
-                $('#subST-box').hide();
-                $('#subW-box').hide();
-                $('#subCardio-box').show();
+                $('#subST-box').hide()
+                $('#subW-box').hide()
+                $('#subCardio-box').show()
                 $('#video-box').empty()
+                $('.btn-group').hide()
             }
         }
 
         // 근력운동 세부 선택사항 보여주기(상체,상체,코어,복근,힙)
         function subWeight() {
             if ($('#subW-box').css('display') == 'grid') {
-                $('#subW-box').hide();
+                $('#subW-box').hide()
                 $('#video-box').empty()
+                $('.btn-group').hide()
             } else {
-                $('#subW-box').show();
-                $('#subST-box').hide();
-                $('#subCardio-box').hide();
+                $('#subW-box').show()
+                $('#subST-box').hide()
+                $('#subCardio-box').hide()
                 $('#video-box').empty()
+                $('.btn-group').hide()
             }
         }
+
+        var pageNo = 1;
 
         // 전신스트레칭 영상 가져오기
         function showFullbodyST() {
             $('#video-box').empty()
+            $('#upperbodySTpage').hide()
+            $('#lowerbodySTpage').hide()
+            $.ajax({
+                    type: "GET",
+                    url: `/st/fullbody?page=${pageNo}`,
+                    data: {},
+                    success: function (response) {
+                        let fullbodySTs = response['fullbodyST_list']
+                        for (let i = 0; i < fullbodySTs.length; i++) {
+                            let fullbodyST = fullbodySTs[i]
+                            let url = fullbodyST['videoId']
+                            let title = fullbodyST['title']
+                            let channelTitle = fullbodyST['channelTitle']
+                            let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                            <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                            <div class="card-body videoContents">
+                                            <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                            <h5>${channelTitle}</h5>
+                                            </div></div>`
+                            $('#video-box').append(tempHtml)
+                        }
+                    }
+                }
+            )
+            $('#fullbodySTpage').show()
+        }
+
+
+        function loadNextFullbodyST() {
+            pageNo += 1;
+            showFullbodyST();
+        }
+
+        function loadPreviousFullbodyST() {
+            pageNo -= 1;
+            showFullbodyST();
+        }
+
+
+        // 상체스트레칭 영상 가져오기-->
+        function showUpperbodyST() {
+            $('#video-box').empty()
+            $('#upperbodySTpage').show()
+            $('#lowerbodySTpage').hide()
+            $('#fullbodySTpage').hide()
             $.ajax({
                 type: "GET",
-                url: "/st/fullbody",
+                url: `/st/upperbody?page=${pageNo}`,
                 data: {},
                 success: function (response) {
-                    let fullbodySTs = response['fullbodyST_list']
-                    for (let i = 0; i < 8; i++) {
-                        let fullbodyST = fullbodySTs[i]
-                        let url = fullbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                    let upperbodySTs = response['upperbodyST_list']
+                    for (let i = 0; i < upperbodySTs.length; i++) {
+                        let upperbodyST = upperbodySTs[i]
+                        let url = upperbodyST['videoId']
+                        let title = upperbodyST['title']
+                        let channelTitle = upperbodyST['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
         }
 
-        // 상체스트레칭 영상 가져오기
-        function showUpperbodyST() {
-            $('#video-box').empty()
-            $.ajax({
-                type: "GET",
-                url: "/st/upperbody",
-                data: {},
-                success: function (response) {
-                    let upperbodySTs = response['upperbodyST_list']
-                    for (let i = 0; i < 8; i++) {
-                        let upperbodyST = upperbodySTs[i]
-                        let url = upperbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
-                        $('#video-box').append(tempHtml)
-                    }
-                }
-            })
+        function loadNextUpperbodyST() {
+            pageNo += 1;
+            showUpperbodyST();
+        }
+
+        function loadPreviousUpperbodyST() {
+            pageNo -= 1;
+            showUpperbodyST();
         }
 
         // 하체스트레칭 영상 가져오기
         function showLowerbodyST() {
             $('#video-box').empty()
+            $('#lowerbodySTpage').show()
+            $('#fullbodySTpage').hide()
+            $('#upperbodySTpage').hide()
             $.ajax({
                 type: "GET",
-                url: "/st/lowerbody",
+                url: `/st/lowerbody?page=${pageNo}`,
                 data: {},
                 success: function (response) {
                     let lowerbodySTs = response['lowerbodyST_list']
-                    for (let i = 0; i < 8; i++) {
+                    for (let i = 0; i < lowerbodySTs.length; i++) {
                         let lowerbodyST = lowerbodySTs[i]
                         let url = lowerbodyST['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        let title = lowerbodyST['title']
+                        let channelTitle = lowerbodyST['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
+        }
+
+        function loadNextLowerbodyST() {
+            pageNo += 1;
+            showLowerbodyST();
+        }
+
+        function loadPreviousLowerbodyST() {
+            pageNo -= 1;
+            showLowerbodyST();
         }
 
         // 유산소운동 영상 가져오기
         function showCardio() {
             $('#video-box').empty()
+            $('#cardioPage').show()
             $.ajax({
                 type: "GET",
-                url: "/cardio",
+                url: `/cardio?page=${pageNo}`,
                 data: {},
                 success: function (response) {
                     let cardios = response['cardio_list']
-                    for (let i = 0; i < 8; i++) {
+                    for (let i = 0; i < cardios.length; i++) {
                         let cardio = cardios[i]
                         let url = cardio['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        let title = cardio['title']
+                        let channelTitle = cardio['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
+        }
+
+        function loadNextCardio() {
+            pageNo += 1;
+            showCardio();
+        }
+
+        function loadPreviousCardio() {
+            pageNo -= 1;
+            showCardio();
         }
 
         // 상체근력운동 영상 가져오기
         function showUpperbodyW() {
             $('#video-box').empty()
+            $('#upperbodyWpage').show()
+            $('#lowerbodyWpage').hide()
+            $('#coreWpage').hide()
+            $('#absWpage').hide()
+            $('#hipWpage').hide()
+
             $.ajax({
                 type: "GET",
-                url: "/w/upperbody",
+                url: `/w/upperbody?page=${pageNo}`,
                 data: {},
                 success: function (response) {
                     let upperbodyWs = response['upperbodyW_list']
-                    for (let i = 0; i < 8; i++) {
+                    for (let i = 0; i < upperbodyWs.length; i++) {
                         let upperbodyW = upperbodyWs[i]
                         let url = upperbodyW['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        let title = upperbodyW['title']
+                        let channelTitle = upperbodyW['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
+        }
+
+        function loadNextUpperbodyW() {
+            pageNo += 1;
+            showUpperbodyW();
+        }
+
+        function loadPreviousUpperbodyW() {
+            pageNo -= 1;
+            showUpperbodyW();
         }
 
         // 하체근력운동 영상 가져오기
         function showLowerbodyW() {
             $('#video-box').empty()
+            $('#lowerbodyWpage').show()
+            $('#upperbodyWpage').hide()
+            $('#coreWpage').hide()
+            $('#absWpage').hide()
+            $('#hipWpage').hide()
             $.ajax({
                 type: "GET",
-                url: "/w/lowerbody",
+                url: `/w/lowerbody?page=${pageNo}`,
                 data: {},
                 success: function (response) {
                     let lowerbodyWs = response['lowerbodyW_list']
-                    for (let i = 0; i < 8; i++) {
+                    for (let i = 0; i < lowerbodyWs.length; i++) {
                         let lowerbodyW = lowerbodyWs[i]
                         let url = lowerbodyW['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        let title = lowerbodyW['title']
+                        let channelTitle = lowerbodyW['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
+        }
+
+        function loadNextLowerbodyW() {
+            pageNo += 1;
+            showLowerbodyW();
+        }
+
+        function loadPreviousLowerbodyW() {
+            pageNo -= 1;
+            showLowerbodyW();
         }
 
         // 코어운동 영상 가져오기
         function showCoreW() {
             $('#video-box').empty()
+            $('#coreWpage').show()
+            $('#lowerbodyWpage').hide()
+            $('#upperbodyWpage').hide()
+            $('#absWpage').hide()
+            $('#hipWpage').hide()
             $.ajax({
                 type: "GET",
-                url: "/w/core",
+                url: `/w/core?page=${pageNo}`,
                 data: {},
                 success: function (response) {
                     let coreWs = response['coreW_list']
-                    for (let i = 0; i < 8; i++) {
+                    for (let i = 0; i < coreWs.length; i++) {
                         let coreW = coreWs[i]
                         let url = coreW['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        let title = coreW['title']
+                        let channelTitle = coreW['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
+        }
+
+        function loadNextCoreW() {
+            pageNo += 1;
+            showCoreW();
+        }
+
+        function loadPreviousCoreW() {
+            pageNo -= 1;
+            showCoreW();
         }
 
         // 복근운동 영상 가져오기
         function showAbsW() {
             $('#video-box').empty()
+            $('#absWpage').show()
+            $('#coreWpage').hide()
+            $('#lowerbodyWpage').hide()
+            $('#upperbodyWpage').hide()
+            $('#hipWpage').hide()
             $.ajax({
                 type: "GET",
-                url: "/w/abs",
+                url: `/w/abs?page=${pageNo}`,
                 data: {},
                 success: function (response) {
                     let absWs = response['absW_list']
-                    for (let i = 0; i < 8; i++) {
+                    for (let i = 0; i < absWs.length; i++) {
                         let absW = absWs[i]
                         let url = absW['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        let title = absW['title']
+                        let channelTitle = absW['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
+        }
+
+        function loadNextAbsW() {
+            pageNo += 1;
+            showAbsW();
+        }
+
+        function loadPreviousAbsW() {
+            pageNo -= 1;
+            showAbsW();
         }
 
         // 힙운동 영상 가져오기
         function showHipW() {
             $('#video-box').empty()
+            $('#hipWpage').show()
+            $('#absWpage').hide()
+            $('#coreWpage').hide()
+            $('#lowerbodyWpage').hide()
+            $('#upperbodyWpage').hide()
             $.ajax({
                 type: "GET",
-                url: "/w/hip",
+                url: `/w/hip?page=${pageNo}`,
                 data: {},
                 success: function (response) {
                     let hipWs = response['hipW_list']
-                    for (let i = 0; i < 8; i++) {
+                    for (let i = 0; i < hipWs.length; i++) {
                         let hipW = hipWs[i]
                         let url = hipW['videoId']
-                        let tempHtml = `<iframe width="400" height="270" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>`
+                        let title = hipW['title']
+                        let channelTitle = hipW['channelTitle']
+                        let tempHtml = `<div class="card" style="width: 500px; float: left; margin:30px 25px">
+                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/${url}" allowfullscreen></iframe>
+                                        <div class="card-body videoContents">
+                                        <h4 style="font-weight: bold; color: darkslateblue">${title}</h4>
+                                        <h5>${channelTitle}</h5>
+                                        </div></div>`
                         $('#video-box').append(tempHtml)
                     }
                 }
             })
         }
+
+        function loadNextHipW() {
+            pageNo += 1;
+            showHipW();
+        }
+
+        function loadPreviousHipW() {
+            pageNo -= 1;
+            showHipW();
+        }
     </script>
-
 </head>
-<body>
 
-<!--<br><br>-->
 <!--//상단 사이트 소개-->
 <div class="Wrap">
     <div class="introWrap">
@@ -382,9 +593,11 @@
         <h1 class="mt-5"><b>집콕 운동이라도 하자 제발 플리즈</b> <br></h1>
         <h4 class="mt-3 mb-0"><b>카테고리별로 원하는 Youtube 운동 영상을 찾아줘요:D</b></h4>
     </div>
+    <!--    // 중간 영어 문장 -->
     <div class="subtitleWrap">
         <p class="mt-5 mb-0"><b>Don't wish it were easier. Wish you were better!</b></p>
     </div>
+
     <div class="menuWrap">
         <!--    // 메인 categroy 3가지 보여주기 -->
         <div class="mb-5 border-info border-bottom">
@@ -519,16 +732,73 @@
             </div>
         </div>
     </div>
+    <!--    <div class="btn-group" id="pagination">-->
+    <!--        <button type="button" class="btn btn-secondary" onclick="loadFullbodyST()" name="loadFullbodyST" value="1">1-->
+    <!--        </button>-->
+    <!--        <button type="button" class="btn btn-secondary" onclick="loadFullbodyST()" name="loadFullbodyST" value="2">2-->
+    <!--        </button>-->
+    <!--        <button type="button" class="btn btn-secondary" onclick="loadFullbodyST()" name="loadFullbodyST" value="3">3-->
+    <!--        </button>-->
+    <!--        <button type="button" class="btn btn-secondary" onclick="loadFullbodyST()" name="loadFullbodyST" value="4">4-->
+    <!--        </button>-->
+    <!--        <button type="button" class="btn btn-secondary" onclick="loadFullbodyST()" name="loadFullbodyST" value="5">5-->
+    <!--        </button>-->
+    <!--        <button type="button" class="btn btn-secondary" onclick="loadFullbodyST()" name="loadFullbodyST" value="6">6-->
+    <!--        </button>-->
+    <!--        <button type="button" class="btn btn-secondary" onclick="loadFullbodyST()" name="loadFullbodyST" value="7">7-->
+    <!--        </button>-->
+    <!--    </div>-->
+
+    <!--비디오 페이지네이션-->
+    <div class="btnWrap" style="text-align: center">
+        <div class="btn-group btn-group-lg " id="fullbodySTpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousFullbodyST()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextFullbodyST()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="upperbodySTpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousUpperbodyST()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextUpperbodyST()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="lowerbodySTpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousLowerbodyST()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextLowerbodyST()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="cardioPage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousCardio()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextCardio()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="upperbodyWpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousUpperbodyW()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextUpperbodyW()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="lowerbodyWpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousLowerbodyW()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextLowerbodyW()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="coreWpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousCoreW()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextCoreW()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="absWpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousAbsW()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextAbsW()">Next</button>
+        </div>
+        <div class="btn-group btn-group-lg" id="hipWpage">
+            <button type="button" class="btn btn-secondary p-4" onclick="loadPreviousHipW()">Previous</button>
+            <button type="button" class="btn btn-primary p-4" onclick="loadNextHipW()">Next</button>
+        </div>
+    </div>
+    <!--비디오 보여주기-->
     <div class="videoWrap" id="video-box">
-        <iframe width="400" height="270" src="https://www.youtube.com/embed/nOGT4lXlSHw" allowfullscreen></iframe>
+        <div class="card" style="width:500px">
+            <iframe width="500" height="300" src="https://www.youtube.com/embed/nOGT4lXlSHw" allowfullscreen></iframe>
+            <div class="card-body">
+                <h4>전신/하체비만/상체비만/골반교정/승모근/종아리알 스트레칭 이거 하나로 끝!</h4>
+                <h5>Thankyou BUBU</h5>
+            </div>
+        </div>
     </div>
 </div>
-
-<!--비디오 보여주기-->
-<!--<div class="videoWrap" id="video-box">-->
-<!--    <iframe width="400" height="270" src="https://www.youtube.com/embed/nOGT4lXlSHw" allowfullscreen></iframe>-->
-<!--</div>-->
 </body>
-
 </html>
 
